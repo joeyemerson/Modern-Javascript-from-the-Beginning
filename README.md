@@ -1,2 +1,3 @@
 # Modern-Javascript-from-the-Beginning
-Brad Traversy's course on Udemy
+
+My collection of project files from the course. I skipped content that was already familiar, so this is not a full course repository -- only the items I chose to complete.
