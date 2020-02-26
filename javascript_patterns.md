@@ -6,6 +6,20 @@
 - Can also be thought of as programming templates
 - Situations vary significantly
 
+I captured a lot of the code from Brad's examples below, but didn't really absorb this fully on the first pass. Here are some more resources to revisit as time allows. They are in no particular order.
+
+https://www.toptal.com/javascript/comprehensive-guide-javascript-design-patterns
+
+https://github.com/javascript-patterns/javascript-patterns
+
+https://github.com/tcorral/Design-Patterns-in-Javascript
+
+https://scotch.io/bar-talk/4-javascript-design-patterns-you-should-know
+
+https://addyosmani.com/resources/essentialjsdesignpatterns/book/
+
+https://seesparkbox.com/foundry/javascript_design_patterns (look at other resource here as well)
+
 ## Module & Revealing Module Patterns
 
 #### Module Pattern
@@ -282,4 +296,139 @@ const getCurSeconds = function() {
 
 ## Mediator Pattern
 
+```js
+const User = function(name) {
+  this.name = name;
+  this.chatroom = null;
+};
+
+User.prototype = {
+  send: function(msg, to) {
+    this.chatroom.send(msg, this, to);
+  },
+  receive: function(msg, from) {
+    console.log(`${from.name} to ${this.name}: ${msg}`);
+  }
+};
+
+const Chatroom = function() {
+  let users = {};
+
+  return {
+    register: function(user) {
+      users[user.name] = user;
+      user.chatroom = this;
+    },
+    send: function(msg, from, to) {
+      if (to) {
+        // Single user message
+        to.receive(msg, from);
+      } else {
+        // Mass message
+        for (const user in users) {
+          if (users[user] !== from) {
+            users[user].receive(msg, from);
+          }
+        }
+      }
+    }
+  };
+};
+
+const joey = new User('Joey');
+const jon = new User('Jon');
+const katie = new User('Katie');
+
+const chatroom = new Chatroom();
+
+chatroom.register(joey);
+chatroom.register(jon);
+chatroom.register(katie);
+
+joey.send('Hi jon', jon);
+```
+
 ## State Pattern
+
+```js
+const PageState = function() {
+  let currentState = new homeState(this);
+
+  this.init = function() {
+    this.change(new homeState());
+  };
+
+  this.change = function(state) {
+    currentState = state;
+  };
+};
+
+// Home state
+const homeState = function(page) {
+  document.querySelector('#heading').textContent = null;
+  document.querySelector('#content').innerHTML = `
+    <div class="jumbotron">
+      <h1 class="display-4">Hello, world!</h1>
+      <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+      <hr class="my-4">
+      <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+      <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+    </div>
+  `;
+};
+
+// About state
+const aboutState = function(page) {
+  document.querySelector('#heading').textContent = 'About Us';
+  document.querySelector('#content').innerHTML = `
+    <p>This is the about page</p>
+  `;
+};
+
+// Contact state
+const contactState = function(page) {
+  document.querySelector('#heading').textContent = 'Contact Us';
+  document.querySelector('#content').innerHTML = `
+    <form>
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Email address</label>
+        <input type="email" class="form-control">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  `;
+};
+
+// Instantiate page state
+const page = new PageState();
+
+// Init first state
+page.init();
+
+// UI Vars
+const home = document.getElementById('home');
+const about = document.getElementById('about');
+const contact = document.getElementById('contact');
+
+// Home
+home.addEventListener('click', e => {
+  page.change(new homeState());
+  e.preventDefault();
+});
+
+// about
+about.addEventListener('click', e => {
+  page.change(new aboutState());
+  e.preventDefault();
+});
+
+// Contact
+contact.addEventListener('click', e => {
+  page.change(new contactState());
+  e.preventDefault();
+});
+```
