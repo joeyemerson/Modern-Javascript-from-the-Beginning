@@ -1,0 +1,19 @@
+{
+  "posts": [
+    {
+      "title": "ssfedg",
+      "body": "asdfjasklfjas;lkfjas;fjas;dklfj;alsdf",
+      "id": 1
+    },
+    {
+      "title": "asdf",
+      "body": "asdfa",
+      "id": 2
+    },
+    {
+      "title": "dsf",
+      "body": "asdfsdfd",
+      "id": 3
+    }
+  ]
+}

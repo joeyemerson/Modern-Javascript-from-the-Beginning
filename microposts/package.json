@@ -5,18 +5,22 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --output-public-path=/build/  --mode development --progress --open --hot",
-    "build": "webpack --mode production --progress"
+    "build": "node ./node_modules/webpack/bin/webpack.js",
+    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --output-public-path=/build/",
+    "json:server": "json-server --watch api/db.json"
   },
   "author": "Brad Traversy",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.4.3",
-    "@babel/polyfill": "^7.4.3",
-    "@babel/preset-env": "^7.4.3",
-    "babel-loader": "^8.0.5",
-    "webpack": "^4.41.6",
-    "webpack-cli": "^3.0.8",
-    "webpack-dev-server": "^3.1.10"
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.9.4"
+  },
+  "dependencies": {
+    "json-server": "^0.16.1"
   }
 }

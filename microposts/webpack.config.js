@@ -1,23 +1,28 @@
-const path = require('path')
+const path = require('path');
 
 module.exports = {
+  devServer: {
+    inline: true,
+    port: 8080
+  },
+  devtool: 'inline-source-map',
   entry: {
-    app: ['@babel/polyfill', './src/app.js']
+    app: ['babel-polyfill', './src/app.js']
   },
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'app.bundle.js'
   },
   module: {
-    rules: [
+    loaders: [
       {
         test: /\.js?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          presets: ['@babel/preset-env']
+          presets: ['env', 'stage-0']
         }
       }
     ]
   }
-}
+};
